@@ -1,29 +1,12 @@
-# aoc_twenty_twenty_gleam
+# Gleam solutions for advent of code 2020
 
-A Gleam program
-
-
-## Quick start
+## Usage
+Set the AOC session key in the envionment variable `AOC_SESSION` then:
 
 ```sh
-# Build the project
-rebar3 compile
+# Build the escript
+rebar3 escriptize
 
-# Run the eunit tests
-rebar3 eunit
-
-# Run the Erlang REPL
-rebar3 shell
-```
-
-
-## Installation
-
-If [available in Hex](https://www.rebar3.org/docs/dependencies#section-declaring-dependencies)
-this package can be installed by adding `aoc_twenty_twenty_gleam` to your `rebar.config` dependencies:
-
-```erlang
-{deps, [
-    aoc_twenty_twenty_gleam
-]}.
+# Run for a specific day
+_build/default/bin/aoc_twenty_twenty_gleam <day>
 ```
