@@ -5,7 +5,11 @@
   {applications,
    [kernel,
     stdlib,
-    gleam_stdlib
+    ssl,
+    inets,
+    gleam_stdlib,
+    gleam_http,
+    gleam_httpc
    ]},
   {env,[]},
   {modules, []},

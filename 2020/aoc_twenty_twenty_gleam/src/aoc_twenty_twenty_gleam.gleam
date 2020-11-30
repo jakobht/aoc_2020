@@ -18,11 +18,18 @@ pub fn run_day(day : String) -> Result(String, String) {
   case int.parse(day) {
     Error(_) -> Error(["The day supplied: \"", day, "\" is not an integer"] |> string.concat)
     Ok(1) -> day1.run()
-    other -> Error("The supplied day is not supported")
+    _ -> Error("The supplied day is not supported")
   }
 }
 
+// These function and the usage should not be nessesary, they should b estarted automatically
+// as they are listed in the app.src file?? 
+external fn inet_start() -> Nil = "inets" "start"
+external fn ssl_start() -> Nil = "ssl" "start"
+
 pub fn main(arg) {
+  inet_start()
+  ssl_start()
   let result = case arg {
     [] -> Error("Please supply the day you wish to run as an argument")
     [day, ..] -> day |> list_to_binary |> run_day
