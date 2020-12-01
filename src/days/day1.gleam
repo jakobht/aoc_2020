@@ -5,7 +5,6 @@ import gleam/string
 import gleam/result
 import gleam/int
 
-// Currently solves last years challange 1
 pub fn run() {
   try in = input.get_input("2020", "1")
   try in =
