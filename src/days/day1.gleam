@@ -19,11 +19,18 @@ pub fn run() {
   |> Ok()
 }
 
-pub fn part1(input: List(Int)) -> Int {
+fn part1_find(input: List(Int)) -> tuple(Int, Int) {
   assert [head, ..tail] = input
 
   case list.find(tail, fn(x) { x + head == 2020 }) {
-    Ok(x) -> head * x
-    Error(_) -> part1(tail)
+    Ok(x) -> tuple(head, x)
+    Error(_) -> part1_find(tail)
+  }
+}
+
+pub fn part1(input: List(Int)) -> Int {
+  assert tuple(a, b) = part1_find(input)
+
+  a*b
   }
 }
