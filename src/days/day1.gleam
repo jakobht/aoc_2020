@@ -19,6 +19,11 @@ pub fn run() {
   |> Ok()
 }
 
-pub fn part1(input) -> Int {
-  0
+pub fn part1(input: List(Int)) -> Int {
+  assert [head, ..tail] = input
+
+  case list.find(tail, fn(x) { x + head == 2020 }) {
+    Ok(x) -> head * x
+    Error(_) -> part1(tail)
+  }
 }
