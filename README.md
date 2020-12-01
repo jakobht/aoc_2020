@@ -10,3 +10,10 @@ rebar3 escriptize
 # Run for a specific day
 _build/default/bin/aoc_twenty_twenty_gleam <day>
 ```
+
+## Run the tests
+To run the tests run:
+
+```sh
+rebar3 eunit
+``` 
