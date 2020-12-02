@@ -13,9 +13,17 @@ type RegAtom {
 }
 
 external type MP
+
 external type ErrSpec
+
 // external fn re_compile(String) -> Result(MP, ErrSpec) "re" "compile" 
-external fn re_run(String, String, List(tuple(RegAtom, RegAtom, RegAtom))) -> tuple(RegAtom, List(String)) = "re" "run"
+external fn re_run(
+  String,
+  String,
+  List(tuple(RegAtom, RegAtom, RegAtom)),
+) -> tuple(RegAtom, List(String)) =
+  "re" "run"
+
 // re:run(<<"ABCabcdABC">>,<<".*(abc*d).*">>,[{capture,all,binary}]).
 pub fn run() {
   try in: String = input.get_input("2020", "2")
@@ -37,7 +45,8 @@ pub fn run() {
 }
 
 fn parse_line(line: String) -> tuple(Int, Int, String, String) {
-  assert tuple(Match, [_, low, high, to_count, pass]) = re_run(line, "(\\d*)-(\\d*) (.*): (.*)", [tuple(Capture, All, Binary)])
+  assert tuple(Match, [_, low, high, to_count, pass]) =
+    re_run(line, "(\\d*)-(\\d*) (.*): (.*)", [tuple(Capture, All, Binary)])
   assert Ok(low) = int.parse(low)
   assert Ok(high) = int.parse(high)
   tuple(low, high, to_count, pass)
@@ -45,7 +54,11 @@ fn parse_line(line: String) -> tuple(Int, Int, String, String) {
 
 fn check_pass(pass: tuple(Int, Int, String, String)) -> Bool {
   assert tuple(low, high, to_count, pass) = pass
-  let count = pass |> string.to_graphemes |> list.filter(fn(x) {x == to_count}) |> list.length
+  let count =
+    pass
+    |> string.to_graphemes
+    |> list.filter(fn(x) { x == to_count })
+    |> list.length
   count >= low && count <= high
 }
 
@@ -58,9 +71,15 @@ pub fn part1(input: List(String)) -> Int {
 
 fn check_pass2(pass: tuple(Int, Int, String, String)) -> Bool {
   assert tuple(i1, i2, to_count, pass) = pass
-  let pass = pass |> string.to_graphemes
-  let b1 = list.at(pass, i1 - 1) |> result.unwrap("") == to_count
-  let b2 = list.at(pass, i2 - 1) |> result.unwrap("") == to_count
+  let pass =
+    pass
+    |> string.to_graphemes
+  let b1 =
+    list.at(pass, i1 - 1)
+    |> result.unwrap("") == to_count
+  let b2 =
+    list.at(pass, i2 - 1)
+    |> result.unwrap("") == to_count
   b1 != b2
 }
 
