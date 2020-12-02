@@ -2,6 +2,7 @@ import gleam/io
 import gleam/int
 import gleam/string.{append}
 import days/day1
+import days/day2
 import gleam/string
 import gleam/bit_string
 import gleam/dynamic
@@ -21,6 +22,7 @@ pub fn run_day(day: String) -> Result(String, String) {
         |> string.concat,
       )
     Ok(1) -> day1.run()
+    Ok(2) -> day2.run()
     _ -> Error("The supplied day is not supported")
   }
 }
