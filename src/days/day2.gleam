@@ -16,7 +16,6 @@ external type MP
 
 external type ErrSpec
 
-// external fn re_compile(String) -> Result(MP, ErrSpec) "re" "compile" 
 external fn re_run(
   String,
   String,
@@ -24,7 +23,6 @@ external fn re_run(
 ) -> tuple(RegAtom, List(String)) =
   "re" "run"
 
-// re:run(<<"ABCabcdABC">>,<<".*(abc*d).*">>,[{capture,all,binary}]).
 pub fn run() {
   try in: String = input.get_input("2020", "2")
   let in =
@@ -71,9 +69,7 @@ pub fn part1(input: List(String)) -> Int {
 
 fn check_pass2(pass: tuple(Int, Int, String, String)) -> Bool {
   assert tuple(i1, i2, to_count, pass) = pass
-  let pass =
-    pass
-    |> string.to_graphemes
+  let pass = string.to_graphemes(pass)
   let b1 =
     list.at(pass, i1 - 1)
     |> result.unwrap("") == to_count
