@@ -5,22 +5,22 @@ import gleam/string
 import gleam/result
 import gleam/int
 
-type RegAtom {
+type RegexOption {
   Capture
   All
   Binary
-  Match
 }
 
-external type MP
-
-external type ErrSpec
+type MatchResult {
+  Match(List(String))
+  Nomatch
+}
 
 external fn re_run(
   String,
   String,
-  List(tuple(RegAtom, RegAtom, RegAtom)),
-) -> tuple(RegAtom, List(String)) =
+  List(tuple(RegexOption, RegexOption, RegexOption)),
+) -> MatchResult =
   "re" "run"
 
 pub fn run() {
@@ -43,7 +43,7 @@ pub fn run() {
 }
 
 fn parse_line(line: String) -> tuple(Int, Int, String, String) {
-  assert tuple(Match, [_, low, high, to_count, pass]) =
+  assert Match([_, low, high, to_count, pass]) =
     re_run(line, "(\\d*)-(\\d*) (.*): (.*)", [tuple(Capture, All, Binary)])
   assert Ok(low) = int.parse(low)
   assert Ok(high) = int.parse(high)
