@@ -17,11 +17,11 @@ external fn list_to_binary(Charlist) -> String = "erlang" "list_to_binary"
 
 pub fn run_day(day: String) -> Result(String, String) {
   case int.parse(day) {
-    Error(_) -> Error(["The day supplied: \"", day, "\" is not an integer"] |> string.concat)
     Ok(1) -> day1.run()
     Ok(2) -> day2.run()
     Ok(3) -> day3.run()
     Ok(4) -> day4.run()
+    Error(_) -> Error(["The day supplied: \"", day, "\" is not an integer"] |> string.concat)
     _ -> Error("The supplied day is not supported")
   }
 }
