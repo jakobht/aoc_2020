@@ -36,15 +36,13 @@ fn count(
     |> list.head
     |> result.unwrap([])
     |> list.length
-  let next_coords = tuple({ x + sx } % width, y + sy)
 
-  case y >= list.length(input) {
-    True -> 0
-    False -> {
-      assert Ok(point) =
-        input
-        |> list.at(y)
-        |> result.then(fn(i) { list.at(i, x) })
+  case y >= list.length(input), input
+  |> list.at(y)
+  |> result.then(fn(i) { list.at(i, x) }) {
+    True, _ -> 0
+    _, Ok(point) -> {
+      let next_coords = tuple({ x + sx } % width, y + sy)
       case point {
         "#" -> 1 + count(input, next_coords, slope)
         "." -> count(input, next_coords, slope)
