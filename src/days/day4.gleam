@@ -36,27 +36,22 @@ pub fn run() {
   let p2 =
     part2(in)
     |> int.to_string
-  Ok(
-    ["Part1: ", p1, " Part2: ", p2]
-    |> string.concat,
-  )
+  Ok(string.concat(["Part1: ", p1, " Part2: ", p2]))
 }
 
 const required_fields = ["byr:", "iyr:", "eyr:", "hgt:", "hcl:", "ecl:", "pid:"]
 
 pub fn part1(input: List(String)) -> Int {
-  input
-  |> list.filter(fn(pp) {
-    list.all(required_fields, fn(f) { string.contains(pp, f) })
-  })
+  list.filter(
+    input,
+    fn(pp) { list.all(required_fields, fn(f) { string.contains(pp, f) }) },
+  )
   |> list.length
 }
 
 pub fn test_prop(pass: String, prop: String, f) -> Bool {
-  let pattern: String =
-    [prop, ":([^ ]*)( |$)"]
-    |> string.concat()
   let pass = string.replace(pass, "\n", " ")
+  let pattern = string.append(prop, ":([^ ]*)( |$)")
   case re_run(pass, pattern, [tuple(Capture, All, Binary)]) {
     Match([_, x, _]) -> f(x)
     Nomatch -> False
@@ -87,8 +82,7 @@ pub fn validate_hgt(pass: String) {
     pass,
     "hgt",
     fn(prop) {
-      let pattern = "^(\\d*)(cm|in)$"
-      case re_run(prop, pattern, [tuple(Capture, All, Binary)]) {
+      case re_run(prop, "^(\\d*)(cm|in)$", [tuple(Capture, All, Binary)]) {
         Match([_, x, "cm"]) -> int_between(x, 150, 193)
         Match([_, x, "in"]) -> int_between(x, 59, 76)
         _ -> False
@@ -102,11 +96,7 @@ pub fn validate_hcl(pass: String) {
     pass,
     "hcl",
     fn(prop) {
-      let pattern = "^#([0-9]|[a-f]){6}$"
-      case re_run(prop, pattern, [tuple(Capture, All, Binary)]) {
-        Match(_) -> True
-        Nomatch -> False
-      }
+      re_run(prop, "^#([0-9]|[a-f]){6}$", [tuple(Capture, All, Binary)]) != Nomatch
     },
   )
 }
@@ -124,11 +114,7 @@ pub fn validate_pid(pass: String) {
     pass,
     "pid",
     fn(prop) {
-      let pattern = "^\\d{9}$"
-      case re_run(prop, pattern, [tuple(Capture, All, Binary)]) {
-        Match(_) -> True
-        Nomatch -> False
-      }
+      re_run(prop, "^\\d{9}$", [tuple(Capture, All, Binary)]) != Nomatch
     },
   )
 }
