@@ -4,16 +4,7 @@ import gleam/io
 import gleam/string
 import gleam/result
 import gleam/int
-
-type RegexOption { Capture All Binary }
-
-type MatchResult {
-  Match(List(String))
-  Nomatch
-}
-
-external fn re_run(String, String,
-  List(tuple(RegexOption, RegexOption, RegexOption))) -> MatchResult = "re" "run"
+import regex.{re_run, Capture, All, Binary, Match, Nomatch}
 
 pub fn run() {
   try in: String = input.get_input("2020", "4")
