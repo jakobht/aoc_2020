@@ -52,86 +52,85 @@ pub fn part1(input: List(String)) -> Int {
   |> list.length
 }
 
-pub fn get_prop(pass: String, prop: String) -> Result(String, Nil) {
+pub fn test_prop(pass: String, prop: String, f) -> Bool {
   let pattern: String =
     [prop, ":([^ ]*)( |$)"]
     |> string.concat()
   let pass = string.replace(pass, "\n", " ")
   case re_run(pass, pattern, [tuple(Capture, All, Binary)]) {
-    Match([_, x, _]) -> Ok(x)
-    Nomatch -> Error(Nil)
+    Match([_, x, _]) -> f(x)
+    Nomatch -> False
   }
 }
 
 pub fn int_between(to_check, min: Int, max: Int) {
-  case to_check
-  |> result.then(int.parse) {
+  case int.parse(to_check) {
     Ok(x) -> x >= min && x <= max
     Error(_) -> False
   }
 }
 
 pub fn validate_byr(pass: String) {
-  get_prop(pass, "byr")
-  |> int_between(1920, 2002)
+  test_prop(pass, "byr", int_between(_, 1920, 2002))
 }
 
 pub fn validate_iyr(pass: String) {
-  get_prop(pass, "iyr")
-  |> int_between(2010, 2020)
+  test_prop(pass, "iyr", int_between(_, 2010, 2020))
 }
 
 pub fn validate_eyr(pass: String) {
-  get_prop(pass, "eyr")
-  |> int_between(2020, 2030)
+  test_prop(pass, "eyr", int_between(_, 2020, 2030))
 }
 
 pub fn validate_hgt(pass: String) {
-  case get_prop(pass, "hgt") {
-    Ok(prop) -> {
+  test_prop(
+    pass,
+    "hgt",
+    fn(prop) {
       let pattern = "^(\\d*)(cm|in)$"
       case re_run(prop, pattern, [tuple(Capture, All, Binary)]) {
-        Match([_, x, "cm"]) -> int_between(Ok(x), 150, 193)
-        Match([_, x, "in"]) -> int_between(Ok(x), 59, 76)
+        Match([_, x, "cm"]) -> int_between(x, 150, 193)
+        Match([_, x, "in"]) -> int_between(x, 59, 76)
         _ -> False
       }
-    }
-    Error(_) -> False
-  }
+    },
+  )
 }
 
 pub fn validate_hcl(pass: String) {
-  case get_prop(pass, "hcl") {
-    Ok(prop) -> {
+  test_prop(
+    pass,
+    "hcl",
+    fn(prop) {
       let pattern = "^#([0-9]|[a-f]){6}$"
       case re_run(prop, pattern, [tuple(Capture, All, Binary)]) {
         Match(_) -> True
         Nomatch -> False
       }
-    }
-    Error(_) -> False
-  }
+    },
+  )
 }
 
 pub fn validate_ecl(pass: String) {
-  case get_prop(pass, "ecl") {
-    Ok(prop) ->
-      list.contains(["amb", "blu", "brn", "gry", "grn", "hzl", "oth"], prop)
-    _ -> False
-  }
+  test_prop(
+    pass,
+    "ecl",
+    list.contains(["amb", "blu", "brn", "gry", "grn", "hzl", "oth"], _),
+  )
 }
 
 pub fn validate_pid(pass: String) {
-  case get_prop(pass, "pid") {
-    Ok(prop) -> {
+  test_prop(
+    pass,
+    "pid",
+    fn(prop) {
       let pattern = "^\\d{9}$"
       case re_run(prop, pattern, [tuple(Capture, All, Binary)]) {
         Match(_) -> True
         Nomatch -> False
       }
-    }
-    _ -> False
-  }
+    },
+  )
 }
 
 pub fn part2(input: List(String)) -> Int {

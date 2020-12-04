@@ -26,143 +26,147 @@ pub fn part2_test() {
   |> should.equal(4)
 }
 
-pub fn get_prop_begin_test() {
-  day4.get_prop(
+pub fn test_prop_begin_test() {
+  day4.test_prop(
     "hgt:59cm ecl:zzz\neyr:2038 hcl:74454a iyr:2023\npid:3556412378 byr:2007",
     "hgt",
+    fn(prop) { prop == "59cm" },
   )
-  |> should.equal(Ok("59cm"))
+  |> should.be_true()
 }
 
-pub fn get_prop_newline_test() {
-  day4.get_prop(
+pub fn test_prop_newline_test() {
+  day4.test_prop(
     "hgt:59cm ecl:zzz\neyr:2038 hcl:74454a iyr:2023\npid:3556412378 byr:2007",
     "ecl",
+    fn(prop) { prop == "zzz" },
   )
-  |> should.equal(Ok("zzz"))
+  |> should.be_true()
 }
 
-pub fn get_prop_mid_test() {
-  day4.get_prop(
+pub fn test_prop_mid_test() {
+  day4.test_prop(
     "hgt:59cm ecl:zzz\neyr:2038 hcl:74454a iyr:2023\npid:3556412378 byr:2007",
     "hcl",
+    fn(prop) { prop == "74454a" },
   )
-  |> should.equal(Ok("74454a"))
+  |> should.be_true()
 }
 
-pub fn get_prop_end_test() {
-  day4.get_prop(
+pub fn test_prop_end_test() {
+  day4.test_prop(
     "hgt:59cm ecl:zzz\neyr:2038 hcl:74454a iyr:2023\npid:3556412378 byr:2007",
     "byr",
+    fn(prop) { prop == "2007" },
   )
-  |> should.equal(Ok("2007"))
+  |> should.be_true()
 }
 
 pub fn validate_byr_test() {
   day4.validate_byr("byr:1919")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_byr("byr:1920")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_byr("byr:1960")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_byr("byr:2002")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_byr("byr:2003")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_byr("iyr:2000")
-  |> should.equal(False)
+  |> should.be_false()
 }
 
 pub fn validate_iyr_test() {
   day4.validate_iyr("iyr:2009")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_iyr("iyr:2010")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_iyr("iyr:2015")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_iyr("iyr:2020")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_iyr("iyr:2021")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_iyr("byr:2015")
-  |> should.equal(False)
+  |> should.be_false()
 }
 
 pub fn validate_eyr_test() {
   day4.validate_eyr("eyr:2019")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_eyr("eyr:2020")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_eyr("eyr:2025")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_eyr("eyr:2030")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_eyr("eyr:2031")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_eyr("eyr:2035")
-  |> should.equal(False)
+  |> should.be_false()
 }
 
 pub fn validate_hgt_test() {
   day4.validate_hgt("hgt:149cm")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_hgt("hgt:150cm")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_hgt("hgt:58in")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_hgt("hgt:59in")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_hgt("hgt:59int")
-  |> should.equal(False)
+  |> should.be_false()
 }
 
 pub fn validate_hcl_test() {
   day4.validate_hcl("hcl:#123abc")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_hcl("hcl:#123abz")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_hcl("hcl:abc123")
-  |> should.equal(False)
+  |> should.be_false()
   day4.validate_hcl("hcl:#123abcd")
-  |> should.equal(False)
+  |> should.be_false()
 }
 
 pub fn validate_ecl_test() {
   day4.validate_ecl("ecl:amb")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_ecl("ecl:aaa")
-  |> should.equal(False)
+  |> should.be_false()
 }
 
 pub fn validate_pid_test() {
   day4.validate_pid("pid:123456789")
-  |> should.equal(True)
+  |> should.be_true()
 
   day4.validate_pid("pid:12345678")
-  |> should.equal(False)
+  |> should.be_false()
 
   day4.validate_pid("pid:12345678k")
-  |> should.equal(False)
+  |> should.be_false()
 }
