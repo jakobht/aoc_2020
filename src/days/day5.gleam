@@ -36,5 +36,15 @@ pub fn part1(input: List(String)) -> Int {
 }
 
 pub fn part2(input: List(String)) -> Int {
-  0
+  let ids = list.map(input, calc_seat)
+  |> list.sort(by: int.compare)
+  
+  list.zip(ids, list.drop(ids, 1))
+  |> list.fold(-1, fn(pair, acc) {
+    assert tuple(x, y) = pair
+    case x+1 == y  {
+      True -> acc
+      False -> x+1
+    }
+  })
 }
