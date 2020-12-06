@@ -5,14 +5,14 @@ import days/day1
 import days/day2
 import days/day3
 import days/day4
+import days/day5
 import gleam/string
 import gleam/bit_string
 import gleam/dynamic
 
 pub external type Charlist
 
-// external fn binary_to_list(String) -> Charlist =
-//  "erlang" "binary_to_list"
+pub external fn binary_to_list(String) -> Charlist = "erlang" "binary_to_list"
 external fn list_to_binary(Charlist) -> String = "erlang" "list_to_binary"
 
 pub fn run_day(day: String) -> Result(String, String) {
@@ -21,6 +21,7 @@ pub fn run_day(day: String) -> Result(String, String) {
     Ok(2) -> day2.run()
     Ok(3) -> day3.run()
     Ok(4) -> day4.run()
+    Ok(5) -> day5.run()
     Error(_) -> Error(["The day supplied: \"", day, "\" is not an integer"] |> string.concat)
     _ -> Error("The supplied day is not supported")
   }
