@@ -7,6 +7,7 @@ import gleam/int
 import gleam/bool
 import gleam/map
 import regex.{re_run, Capture, All, Binary, Match, Nomatch}
+import util.{iff}
 
 pub fn run() {
   try in: String = input.get_input("2020", "7")
@@ -72,11 +73,7 @@ fn build_graph(input: List(tuple(String, List(tuple(Int, String)))), reversed: R
     let tuple(from, children) = item
     list.fold(children, m, fn(child, m) {
       let tuple(quant, child) = child
-
-      let tuple(from, child) = case reversed {
-        Regular -> tuple(from, child)
-        Reversed -> tuple(child, from)
-      }
+      let tuple(from, child) = iff(reversed == Regular, tuple(from, child), tuple(child, from))
 
       map.update(m, from, fn(existing) {
         case existing {
