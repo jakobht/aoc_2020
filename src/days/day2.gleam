@@ -27,7 +27,7 @@ pub fn run() {
 
 fn parse_line(line: String) -> tuple(Int, Int, String, String) {
   assert Match([_, low, high, to_count, pass]) =
-    re_run(line, "(\\d*)-(\\d*) (.*): (.*)", [tuple(Capture, All, Binary)])
+    re_run(line, "(\\d*)-(\\d*) (.*): (.*)", [Capture(All, Binary)])
   assert Ok(low) = int.parse(low)
   assert Ok(high) = int.parse(high)
   tuple(low, high, to_count, pass)

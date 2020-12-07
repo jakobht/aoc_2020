@@ -27,7 +27,7 @@ pub fn part1(input: List(String)) -> Int {
 pub fn test_prop(pass: String, prop: String, f) -> Bool {
   let pass = string.replace(pass, "\n", " ")
   let pattern = string.append(prop, ":([^ ]*)( |$)")
-  case re_run(pass, pattern, [tuple(Capture, All, Binary)]) {
+  case re_run(pass, pattern, [Capture(All, Binary)]) {
     Match([_, x, _]) -> f(x)
     Nomatch -> False
   }
@@ -54,7 +54,7 @@ pub fn validate_eyr(pass: String) {
 
 pub fn validate_hgt(pass: String) {
   test_prop(pass, "hgt", fn(prop) {
-      case re_run(prop, "^(\\d*)(cm|in)$", [tuple(Capture, All, Binary)]) {
+      case re_run(prop, "^(\\d*)(cm|in)$", [Capture(All, Binary)]) {
         Match([_, x, "cm"]) -> int_between(x, 150, 193)
         Match([_, x, "in"]) -> int_between(x, 59, 76)
         _ -> False
@@ -64,7 +64,7 @@ pub fn validate_hgt(pass: String) {
 
 pub fn validate_hcl(pass: String) {
   test_prop(pass, "hcl", fn(prop) {
-      re_run(prop, "^#([0-9]|[a-f]){6}$", [tuple(Capture, All, Binary)]) != Nomatch
+      re_run(prop, "^#([0-9]|[a-f]){6}$", [Capture(All, Binary)]) != Nomatch
   })
 }
 
@@ -74,7 +74,7 @@ pub fn validate_ecl(pass: String) {
 
 pub fn validate_pid(pass: String) {
   test_prop(pass, "pid", fn(prop) {
-      re_run(prop, "^\\d{9}$", [tuple(Capture, All, Binary)]) != Nomatch
+      re_run(prop, "^\\d{9}$", [Capture(All, Binary)]) != Nomatch
   })
 }
 
