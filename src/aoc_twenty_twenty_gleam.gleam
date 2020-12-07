@@ -6,6 +6,7 @@ import days/day2
 import days/day3
 import days/day4
 import days/day5
+import days/day6
 import gleam/string
 import gleam/bit_string
 import gleam/dynamic
@@ -22,6 +23,7 @@ pub fn run_day(day: String) -> Result(String, String) {
     Ok(3) -> day3.run()
     Ok(4) -> day4.run()
     Ok(5) -> day5.run()
+    Ok(6) -> day6.run()
     Error(_) -> Error(["The day supplied: \"", day, "\" is not an integer"] |> string.concat)
     _ -> Error("The supplied day is not supported")
   }
