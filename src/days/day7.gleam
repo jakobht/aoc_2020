@@ -44,7 +44,7 @@ pub fn find_children(graph, passed, waiting) {
         False -> {
           let my_children = map.get(graph, head) |> result.unwrap([])
           |> list.map(fn(x) {
-            assert tuple(_, name) = x
+            let tuple(_, name) = x
             name
           })
 
@@ -64,15 +64,14 @@ pub fn part1(input: List(String)) -> Int {
   list.length(all_children) - 1
 }
 
-
 type Reversed { Reversed Regular }
 
 fn build_graph(input: List(tuple(String, List(tuple(Int, String)))), reversed: Reversed) 
   -> map.Map(String, List(tuple(Int, String))) {
   list.fold(input, map.new(), fn(item, m) {
-    assert tuple(from, children) = item
+    let tuple(from, children) = item
     list.fold(children, m, fn(child, m) {
-      assert tuple(quant, child) = child
+      let tuple(quant, child) = child
 
       let tuple(from, child) = case reversed {
         Regular -> tuple(from, child)
@@ -81,7 +80,7 @@ fn build_graph(input: List(tuple(String, List(tuple(Int, String)))), reversed: R
 
       map.update(m, from, fn(existing) {
         case existing {
-          Ok(l) -> list.append(l, [tuple(quant, child)])
+          Ok(l) -> [tuple(quant, child), ..l]
           Error(_) -> [tuple(quant, child)]
         }
       })
@@ -92,17 +91,18 @@ fn build_graph(input: List(tuple(String, List(tuple(Int, String)))), reversed: R
 fn count_bags(
   graph: map.Map(String, List(tuple(Int, String))), 
   cur: String, 
-  requirements: map.Map(String, Int)) {
+  requirements: map.Map(String, Int)) 
+{
   case map.get(graph, cur) {
     Ok(children) -> {
       case map.get(requirements, cur) {
         Ok(requirement) -> tuple(requirements, requirement)
         Error(_) -> {
-          assert tuple(requirements, my_requirement) = 
+          let tuple(requirements, my_requirement) = 
             list.fold(children, tuple(requirements, 1), fn(child, acc) {
-              assert tuple(my_qt, child) = child
-              assert tuple(requirements, acc) = acc
-              assert tuple(new_requirements, cq) = count_bags(graph, child, requirements)
+              let tuple(my_qt, child) = child
+              let tuple(requirements, acc) = acc
+              let tuple(new_requirements, cq) = count_bags(graph, child, requirements)
               tuple(new_requirements, acc + cq * my_qt)
             })
           tuple(map.insert(requirements, cur, my_requirement), my_requirement)
@@ -114,7 +114,7 @@ fn count_bags(
 }
 
 pub fn part2(input: List(String)) -> Int {
-  assert tuple(_, res) = list.map(input, parse_line) 
+  let tuple(_, res) = list.map(input, parse_line) 
   |> build_graph(Regular)
   |> count_bags("shiny gold", map.new())
 
