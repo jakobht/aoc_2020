@@ -24,14 +24,12 @@ pub fn parse_line(line: String) -> tuple(String, List(tuple(Int, String))) {
 
   let objects = case string.contains(line, "no other bags") {
     True -> []
-    False -> {
-      string.split(line, on: ",")
+    False ->  string.split(line, on: ",")
       |> list.map(fn(object) {
         let reg_object = "(\\d+) (.*) bag"
         assert Match([_, quantity, object]) = re_run(object, reg_object, [Capture(All, Binary)])
         tuple(quantity |> int.parse |> result.unwrap(-1), object)
       })
-    }
   }
   tuple(subject, objects)
 }
@@ -60,7 +58,6 @@ pub fn part1(input: List(String)) -> Int {
   let all_children = list.map(input, parse_line) 
   |> build_graph(Reversed)
   |> find_children([], ["shiny gold"])
-  |> io.debug
   
   list.length(all_children) - 1
 }
@@ -68,7 +65,8 @@ pub fn part1(input: List(String)) -> Int {
 type Reversed { Reversed Regular }
 
 fn build_graph(input: List(tuple(String, List(tuple(Int, String)))), reversed: Reversed) 
-  -> map.Map(String, List(tuple(Int, String))) {
+  -> map.Map(String, List(tuple(Int, String))) 
+{
   list.fold(input, map.new(), fn(item, m) {
     let tuple(from, children) = item
     list.fold(children, m, fn(child, m) {
@@ -98,7 +96,7 @@ fn count_bags(
           let tuple(requirements, my_requirement) = 
             list.fold(children, tuple(requirements, 1), fn(child, acc) {
               let tuple(my_qt, child) = child
-              let tuple(requirements, acc) = acc
+              let tuple(requirements, acc) = acc -> -Keyword.get(x, :message_queue_len) end) |> Enum.take(5)
               let tuple(new_requirements, cq) = count_bags(graph, child, requirements)
               tuple(new_requirements, acc + cq * my_qt)
             })
