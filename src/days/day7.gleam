@@ -96,7 +96,7 @@ fn count_bags(
           let tuple(requirements, my_requirement) = 
             list.fold(children, tuple(requirements, 1), fn(child, acc) {
               let tuple(my_qt, child) = child
-              let tuple(requirements, acc) = acc -> -Keyword.get(x, :message_queue_len) end) |> Enum.take(5)
+              let tuple(requirements, acc) = acc
               let tuple(new_requirements, cq) = count_bags(graph, child, requirements)
               tuple(new_requirements, acc + cq * my_qt)
             })
